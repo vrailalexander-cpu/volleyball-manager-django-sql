@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Змагання</title>
+</head>
+<body>
+{% extends 'volleyball/base.html' %}
+{% block content %}
+<div class="card p-4">
+    <h1 class="h2">
+        {{ competition.name }}
+    </h1>
+    <p>
+        <b>Тип:</b>
+        {{ competition.get_competition_type_display }}
+    </p>
+    <p>
+        <b>Місце:</b>
+        {{ competition.location|default:'—' }}
+    </p>
+    <p>
+        <b>Дати:</b> {{ competition.start_date|date:'d.m.Y' }} – {{ competition.end_date|date:'d.m.Y' }}
+    </p>
+    <h2 class="h5 mt-3">Матчі</h2>
+    {% for match in competition.matches.all %}
+    <p>
+        {{ match.starts_at|date:'d.m.Y H:i' }} · {{ match.home_team }} {{ match.home_score }} : {{ match.away_score }} {{ match.away_team }}
+    </p>
+    {% empty %}
+    <p>
+        Матчів у межах змагання поки немає.
+    </p>
+    {% endfor %}
+</div>
+{% endblock %}
+</body>
+</html>
